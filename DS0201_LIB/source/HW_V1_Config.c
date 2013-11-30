@@ -127,20 +127,20 @@ void GPIO_Config(void)
                 |+----------- Nib6  KU    Pull up input  
                 +------------ Nib7  KR    Pull up input*/ 
   GPIOA_CRH = 0x8884488B;  /* GPIOA Bit8-15 
-                |||||||+----- Nib8  MCO   Alternate output
+                |||||||+----- Nib8  MCO   Alternate output push-pull 50 MHz
                 ||||||+------ Nib9  NC    Pull up input
                 |||||+------- Nib10 NC    Pull up input  
-                ||||+-------- Nib11 D-    Input  
-                |||+--------- Nib12 D+    Input  
+                ||||+-------- Nib11 D-    Floating input
+                |||+--------- Nib12 D+    Floating input
                 ||+---------- Nib13 TMS   Pull up input  
                 |+----------- Nib14 TCK   Pull up input  
                 +------------ Nib15 TDI   Pull up input*/  
   GPIOA_ODR = 0x0FFFF;
   
   GPIOB_CRL = 0x88888411;  /* GPIOB Bit0-7 
-                |||||||+----- Nib0  A     Low speed output
-                ||||||+------ Nib1  D     Low speed output
-                |||||+------- Nib2  BT1   Input  
+                |||||||+----- Nib0  A     Low speed output 10 MHz
+                ||||||+------ Nib1  D     Low speed output 10 MHz
+                |||||+------- Nib2  BT1   Floating input  
                 ||||+-------- Nib3  TDO   Pull up input  
                 |||+--------- Nib4  TRST  Pull up input  
                 ||+---------- Nib5  NC    Pull up input  
@@ -149,25 +149,25 @@ void GPIO_Config(void)
   GPIOB_CRH = 0xBBB1B488;  /* GPIOB Bit8-15 
                 |||||||+----- Nib8  NC    Pull up input
                 ||||||+------ Nib9  NC    Pull up input
-                |||||+------- Nib10 Vusb  Input  
-                ||||+-------- Nib11 V0    Alternate output  
-                |||+--------- Nib12 SDCS  Low speed output  
-                ||+---------- Nib13 SCK   Alternate output  
-                |+----------- Nib14 MISO  Alternate output  
-                +------------ Nib15 MOSI  Alternate output*/  
+                |||||+------- Nib10 Vusb  Floating input  
+                ||||+-------- Nib11 V0    Alternate output push-pull 50 MHz
+                |||+--------- Nib12 SDCS  Low speed output 10 MHz
+                ||+---------- Nib13 SCK   Alternate output push-pull 50 MHz
+                |+----------- Nib14 MISO  Alternate output push-pull 50 MHz
+                +------------ Nib15 MOSI  Alternate output push-pull 50 MHz */
   GPIOB_ODR = 0x0FFFF;
   
   GPIOC_CRL = 0x84118881;  /* GPIOB Bit0-7 
-                |||||||+----- Nib0  nCLS  Low speed output
+                |||||||+----- Nib0  nCLS  Low speed output 10 MHz
                 ||||||+------ Nib1  NC    Pull up input
                 |||||+------- Nib2  NC    Pull up input  
                 ||||+-------- Nib3  NC    Pull up input  
-                |||+--------- Nib4  C     Low speed output  
-                ||+---------- Nib5  B     Low speed output  
-                |+----------- Nib6  NC    Input  
+                |||+--------- Nib4  C     Low speed output 10 MHz
+                ||+---------- Nib5  B     Low speed output 10 MHz
+                |+----------- Nib6  NC    Floating input  
                 +------------ Nib7  NC    Pull up input*/  
   GPIOC_CRH = 0x88888884;  /* GPIOB Bit8-15 
-                |||||||+----- Nib8  NC    Input
+                |||||||+----- Nib8  NC    Floating input
                 ||||||+------ Nib9  NC    Pull up input
                 |||||+------- Nib10 NC    Pull up input  
                 ||||+-------- Nib11 NC    Pull up input  
@@ -179,26 +179,26 @@ void GPIO_Config(void)
   
   GPIOD_CRL = 0x38338838;  /* GPIOB Bit0-7 
                 |||||||+----- Nib0  NC    Pull up input
-                ||||||+------ Nib1  RS    Hight speed output
+                ||||||+------ Nib1  RS    High speed output push-pull 50 MHz
                 |||||+------- Nib2  NC    Pull up input  
                 ||||+-------- Nib3  NC    Pull up input  
-                |||+--------- Nib4  nRD   Hight speed output  
-                ||+---------- Nib5  nWR   Hight speed output  
+                |||+--------- Nib4  nRD   High speed output push-pull 50 MHz 
+                ||+---------- Nib5  nWR   High speed output push-pull 50 MHz
                 |+----------- Nib6  NC    Pull up input  
-                +------------ Nib7  nCS   Hight speed output*/  
+                +------------ Nib7  nCS   High speed output push-pull 50 MHz */  
   GPIOD_CRH = 0x888B8884;  /* GPIOB Bit8-15 
-                |||||||+----- Nib8  NC    Pull up input
+                |||||||+----- Nib8  NC    Floating input
                 ||||||+------ Nib9  KD    Pull up input
                 |||||+------- Nib10 SDDT  Pull up input  
                 ||||+-------- Nib11 KM    Pull up input  
-                |||+--------- Nib12 Fout  Alternate output  
+                |||+--------- Nib12 Fout  Alternate output push-pull 50 MHz 
                 ||+---------- Nib13 NC    Pull up input  
                 |+----------- Nib14 NC    Pull up input  
                 +------------ Nib15 NC    Pull up input*/  
   GPIOD_ODR = 0x0FF7F;
   
-  GPIOE_CRL = 0x33333333;   //Bit0-7  Hight speed output (LCD_DB0-7 )
-  GPIOE_CRH = 0x33333333;   //Bit8-15 Hight speed output (LCD_DB8-15)
+  GPIOE_CRL = 0x33333333;   //Bit0-7  High speed output PP (LCD_DB0-7 )
+  GPIOE_CRH = 0x33333333;   //Bit8-15 High speed output PP (LCD_DB8-15)
  
   AFIO_MAPR = 0x00001200;  /* AF remap and debug I/O configuration register Bit0-31 
                 ||||||++----- Reset value
