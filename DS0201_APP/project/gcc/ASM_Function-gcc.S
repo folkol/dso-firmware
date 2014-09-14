@@ -63,6 +63,8 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     MOVS    R3,  #LCD_RS 
     MOVS    R4,  #LCD_WR
     
+/* set Y - send "Set DRAM Horizontal Address" command 20h */
+
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
@@ -80,6 +82,8 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
+
+/* set X - send "Set DRAM Vertical Address" command 21h */
 
     MOVS    R5,  #0x21              /* X_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = X_Addr REG. */
@@ -99,6 +103,8 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
+/* send "Read Data from DRAM" (0x22) command */
+
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
@@ -109,6 +115,8 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
+
+/* read out from graphic RAM into R3 */
 
     MOVS    R5,  #0x44444444        /* INPUT MODE   */
     STR     R5,  [R7, #CRL]
@@ -156,6 +164,11 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
+/* all the above is identical to Get_Pixel except that R3 now has
+   the LCD_DATA value, and R0 was used for #LCD_RD */
+
+/* reset Y (was autoincremented) */
+
     MOVS    R0,  #LCD_RS 
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
@@ -175,6 +188,8 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
+/* send "Write Data to DRAM" (also 0x22) command */
+
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R0,  [R6, #OUT_L]       /* RS = 0 */
@@ -185,6 +200,8 @@ __Add_Color:            /* void __Add_Color(unsigned short x,unsigned short y,un
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R0,  [R6, #OUT_H]       /* RS = 1 */
+
+/* do the color logic and write back */
 
     MOVW    R5,  #C_GROUP
     ANDS    R0,  R3,  R5
@@ -226,6 +243,8 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     MOVS    R3,  #LCD_RS 
     MOVS    R4,  #LCD_WR
     
+/* set Y - send "Set DRAM Horizontal Address" command 20h */
+
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
@@ -243,6 +262,8 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
+
+/* set X - send "Set DRAM Vertical Address" command 21h */
 
     MOVS    R5,  #0x21              /* X_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = X_Addr REG. */
@@ -262,6 +283,8 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
+/* send "Read Data from DRAM" (0x22) command */
+
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
@@ -272,6 +295,8 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
+
+/* read pixel into R3 */
 
     MOVS    R5,  #0x44444444        /* INPUT MODE   */
     STR     R5,  [R7, #CRL]
@@ -319,6 +344,8 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     STR     R5,  [R7, #CRL]
     STR     R5,  [R7, #CRH]
 
+/* reset Y (was autoincremented) */
+
     MOVS    R0,  #LCD_RS 
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
@@ -338,6 +365,8 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
+/* send "Write Data to DRAM" (also 0x22) command */
+
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R0,  [R6, #OUT_L]       /* RS = 0 */
@@ -348,6 +377,8 @@ __Erase_Color:            /* void __Erase_Color(unsigned short x,unsigned short 
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R0,  [R6, #OUT_H]       /* RS = 1 */
+
+/* do the color logic and write back */
 
     MOVW    R5,  #F_SELEC
     AND     R0,  R3, R5             /* extract color flags from pixel */
@@ -425,6 +456,8 @@ __Get_Pixel:    /* unsigned short __Get_Pixel(unsigned short x0,unsigned short y
     MOVS    R3,  #LCD_RS 
     MOVS    R4,  #LCD_WR
     
+/* set Y - send "Set DRAM Horizontal Address" command 20h */
+
     MOVS    R5,  #0x20              /* Y_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = Y_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
@@ -442,6 +475,8 @@ __Get_Pixel:    /* unsigned short __Get_Pixel(unsigned short x0,unsigned short y
     MOVT    R6,  #GPIO              /* DELAY 2 CYCEL */
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
+
+/* set X - send "Set DRAM Vertical Address" command 21h */
 
     MOVS    R5,  #0x21              /* X_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = X_Addr REG. */
@@ -461,6 +496,8 @@ __Get_Pixel:    /* unsigned short __Get_Pixel(unsigned short x0,unsigned short y
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
 
+/* send "Read Data from DRAM" (0x22) command */
+
     MOVS    R5,  #0x22              /* GRAM_Addr REG.  */
     STR     R5,  [R7, #ODR]         /* [LCD_DATA] = GRAM_Addr REG. */
     STR     R3,  [R6, #OUT_L]       /* RS = 0 */
@@ -471,6 +508,8 @@ __Get_Pixel:    /* unsigned short __Get_Pixel(unsigned short x0,unsigned short y
     
     STR     R4,  [R6, #OUT_H]       /* WR = 1 */
     STR     R3,  [R6, #OUT_H]       /* RS = 1 */
+
+/* read out from graphic RAM into R0 */
 
     MOVS    R5,  #0x44444444        /* INPUT MODE   */
     STR     R5,  [R7, #CRL]
