@@ -76,7 +76,7 @@ $(NAME).elf: $(AOBJ) $(COBJ) $(LNKSCRIPT)
 binaries: $(NAME).elf
 	$(OD) -S $(NAME).elf > $(NAME).lst
 	$(CP) -O binary $(NAME).elf $(NAME).bin
-	$(CP) -O ihex $(NAME).elf $(NAME).hex
+	$(CP) --change-addresses 0x08004000 -Ibinary -Oihex $(NAME).bin $(NAME).hex
 
 clean:
 	rm -f *.o $(PRJ)/source/*.o $(STM_LIB)/src/*.o $(USB_LIB)/src/*.o \
