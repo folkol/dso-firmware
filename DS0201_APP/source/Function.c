@@ -657,7 +657,7 @@ void      Measure_Wave(void)
    if (Wait_CNT > 5) Wait_CNT = 0;
    else Wait_CNT++;
 
-   Calculate_FFT();
+   /* Calculate_FFT(); */
 }
 
 
