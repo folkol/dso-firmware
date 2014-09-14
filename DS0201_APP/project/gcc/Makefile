@@ -23,6 +23,9 @@ AS = $(CROSS_COMPILE)as
 CP = $(CROSS_COMPILE)objcopy
 OD = $(CROSS_COMPILE)objdump
   
+OCC := $(CC)
+CC = @echo "   CC   " $@; $(OCC)
+
 LNKSCRIPT = stm32f10x_flash_offset.ld
 MFLAGS  = -mcpu=cortex-m3 -mthumb
 ASFLAGS = $(MFLAGS)
