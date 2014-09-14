@@ -12,22 +12,7 @@
   RSEG CODE:CODE(2)
 #endif
   
-#ifdef NANOV3
-
-  EXPORT __Erase_Color
-  EXPORT __Add_Color
-
-.thumb_func
-__Add_Color:
-    /* FIXME This function must be written for ILI9341 */
-    BX      LR
-
-.thumb_func
-__Erase_Color:
-    /* FIXME This function must be written for ILI9341 */
-    BX      LR
-
-#else
+#ifndef NANOV3
 
   EXPORT __Erase_Color
   EXPORT __Add_Color

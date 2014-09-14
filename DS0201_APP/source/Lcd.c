@@ -17,14 +17,26 @@ void LCD_SET_WINDOW(short x1, short x2, short y1, short y2)
     __V3_SetBlock(x1, y1, x2, y2);
 }
 
-void Point_SCR(unsigned short x0, unsigned short y0) 
+void Point_SCR(unsigned short x0, unsigned short y0)
 {
     __V3_Set_Posi(x0, y0);
 }
 
-void Set_Pixel(unsigned short Color) 
+void Set_Pixel(unsigned short Color)
 {
     __V3_Set_Pixel(Color);
+}
+
+void __Add_Color(unsigned short x0, unsigned short y0, unsigned short Color)
+{
+    __V3_Set_Posi(x0, y0);
+    __V3_Set_Pixel(Color);
+}
+
+void __Erase_Color(unsigned short x0, unsigned short y0, unsigned short Color)
+{
+    __V3_Set_Posi(x0, y0);
+    __V3_Set_Pixel(BACKGROUND);
 }
 
 #else
