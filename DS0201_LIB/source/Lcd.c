@@ -172,6 +172,25 @@ unsigned char Get_Ref_Wave(unsigned short idx)
   return Ref_Buffer[idx];
 }
 
+#ifdef DSONANOV3
+
+void LCD_Initial(void)
+{
+/* __V3_LCD_Init() not needed, run by bootloader */
+}
+
+void Point_SCR(unsigned short x0, unsigned short y0) 
+{
+    __V3_Set_Posi(x0, y0);
+}
+
+void Set_Pixel(unsigned short Color) 
+{
+    __V3_Set_Pixel(Color);
+}
+
+#else
+
 /*******************************************************************************
  LCD_WR_REG: Set LCD Register  Input: Register addr., Data
 *******************************************************************************/
@@ -274,6 +293,9 @@ void Set_Pixel(unsigned short Color)
   LDC_DATA_OUT=Color;   //Color Data
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
 }
+
+#endif
+
 /*******************************************************************************
  Clear Screen 
 *******************************************************************************/

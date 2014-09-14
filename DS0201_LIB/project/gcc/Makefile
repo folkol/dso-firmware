@@ -68,6 +68,12 @@ ASRC = cortexm3_macro.s \
 
 AOBJ = $(ASRC:.s=.o)
 
+AOBJ += nanov3_bootloader.o
+
+ifdef NANOV3
+CPPFLAGS += -DNANOV3
+endif
+
 all: binaries
 
 $(NAME).elf: $(AOBJ) $(COBJ) $(LNKSCRIPT)

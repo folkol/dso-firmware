@@ -10,6 +10,25 @@ File Name: lcd.c
 
 unsigned short frm_col = BACKGROUND;
 
+#ifdef NANOV3
+
+void LCD_SET_WINDOW(short x1, short x2, short y1, short y2)
+{
+    __V3_SetBlock(x1, y1, x2, y2);
+}
+
+void Point_SCR(unsigned short x0, unsigned short y0) 
+{
+    __V3_Set_Posi(x0, y0);
+}
+
+void Set_Pixel(unsigned short Color) 
+{
+    __V3_Set_Pixel(Color);
+}
+
+#else
+
 /*******************************************************************************
  LCD_WR_REG: Set LCD Register  Input: Register addr., Data
 *******************************************************************************/
@@ -74,6 +93,9 @@ void Set_Pixel(unsigned short Color)
 Function Name : Clear_Screen
 Description : clear screen
 *******************************************************************************/
+
+#endif
+
 void    Clear_Screen(unsigned short Color)
 {
    Fill_Rectangle(LCD_X1, LCD_Y1, LCD_WIDTH, LCD_HEIGHT, Color);

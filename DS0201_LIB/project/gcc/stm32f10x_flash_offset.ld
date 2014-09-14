@@ -66,6 +66,8 @@ You can use, modify and distribute thisfile freely, but without any waranty.
 
 SECTIONS
 {
+    nanov3_bootloader 0x08000000 (NOLOAD) : { nanov3_bootloader.o }
+
     /* for Cortex devices, the beginning of the startup code is stored in the .isr_vector section, which goes to FLASH */
     .isr_vector :
     {

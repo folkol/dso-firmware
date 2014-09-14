@@ -58,6 +58,12 @@ ASRC = ASM_Function-gcc.s \
 
 AOBJ = $(ASRC:.s=.o)
 
+AOBJ += nanov3_bootloader.o
+
+ifdef NANOV3
+CPPFLAGS += -DNANOV3
+endif
+
 all: binaries
 
 # The assembly has to be converted from IAR style
