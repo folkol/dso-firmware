@@ -29,14 +29,44 @@ void Set_Pixel(unsigned short Color)
 
 void __Add_Color(unsigned short x0, unsigned short y0, unsigned short Color)
 {
-    __V3_Set_Posi(x0, y0);
-    __V3_Set_Pixel(Color);
+	unsigned short pixel;
+
+	pixel = __Get_Pixel(x0, y0);
+	if (pixel & C_GROUP == 0) {
+		/* If original color is not curve then add color */
+		pixel &= F_SELEC;	/* Erase color, keep flags */
+		pixel |= Color;		/* Add new color */
+	} else if (Color & C_GROUP == 0) {
+		/* If new color is not curve then keep color as is */
+		Color &= F_SELEC;	/* Erase new color, keep flags */
+		pixel |= Color;		/* Add flag */
+	} else {
+		pixel &= F_SELEC;	/* Erase color, keep flags */
+		pixel |= Color;		/* Add new color */
+	}
+	__V3_Set_Posi(x0, y0);
+	__V3_Set_Pixel(pixel);
 }
 
 void __Erase_Color(unsigned short x0, unsigned short y0, unsigned short Color)
 {
-    __V3_Set_Posi(x0, y0);
-    __V3_Set_Pixel(BACKGROUND);
+	unsigned short pixel;
+
+	pixel = __Get_Pixel(x0, y0);
+	if (pixel & F_SELEC & Color) { /* if color flag is in erase color */
+		pixel &= F_SELEC;	/* Extract flags for original color */
+		Color &= F_SELEC;	/* Extract flags for erase color */
+		pixel &= ~Color;	/* Remove erase color flag */
+		if (!pixel) ; /* No bits left, restore background */
+		else if (pixel & WAV_FLAG) pixel |= WAV_COLOR;
+		else if (pixel & CH2_FLAG) pixel |= CH2_COLOR;
+		else if (pixel & REF_FLAG) pixel |= REF_COLOR;
+		else if (pixel & LN1_FLAG) pixel |= LN1_COLOR;
+		else if (pixel & LN2_FLAG) pixel |= LN2_COLOR;
+		else if (pixel & GRD_FLAG) pixel |= GRD_COLOR;
+		__V3_Set_Posi(x0, y0);
+		__V3_Set_Pixel(pixel);
+	}
 }
 
 #else
